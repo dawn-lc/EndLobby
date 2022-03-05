@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "Minecraft the_end lobby server for Minecraft: Java Edition",
   "main": "main.js",
-  "repository": "github:dawnlc/EndLobby",
+  "repository": "github:dawn-lc/EndLobby",
   "author": {
-    "name": "dawnlc",
+    "name": "dawn-lc",
     "email": "admin@dawnlc.me",
     "url": "https://dawnlc.me"
   },
