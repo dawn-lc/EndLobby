@@ -1,0 +1,22 @@
+{
+  "name": "EndLobby",
+  "version": "0.0.1",
+  "description": "Minecraft the_end lobby server for Minecraft: Java Edition",
+  "main": "main.js",
+  "repository": "github:dawnlc/EndLobby",
+  "author": {
+    "name": "dawnlc",
+    "email": "admin@dawnlc.me",
+    "url": "https://dawnlc.me"
+  },
+  "scripts": {
+    "start": "node main.js"
+  },
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "minecraft-protocol": "^1.30.0",
+    "prismarine-chunk": "^1.30.0",
+    "redis": "^4.0.4"
+  }
+}
