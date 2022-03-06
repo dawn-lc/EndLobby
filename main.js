@@ -1,16 +1,10 @@
-const MinecraftProtocol = require('minecraft-protocol');
+const MinecraftProtocol = require('minecraft-protocol'); 
 const Crypto = require('crypto');
 const Vec3 = require('vec3');
 const Redis = require('redis');
-
+const bungee = require('bungeecord-message');
 (async () => {
-    const DB = Redis.createClient({
-        RDS_PORT: 6379,
-        RDS_HOST: '127.0.0.1',
-        RDS_OPTS: {
-            auth_pass: ''
-        }
-    });
+    const DB = Redis.createClient('6379', '127.0.0.1', {});
     await DB.connect();
 
     const server = MinecraftProtocol.createServer({
@@ -107,17 +101,24 @@ const Redis = require('redis');
         client.write('position', {
             x: 0.5,
             y: 1,
-            z: 0.5
+            z: 0.5,
+            yaw: 0,
+            pitch: 0,
+            onGround: true
         })
         client.on('position', (x, y, z, onGround) => {
             if (x > 100 || x < -100 || y > 100 || y < -100 || z > 100 || z < -100) {
                 client.write('position', {
                     x: 0.5,
                     y: 1,
-                    z: 0.5
+                    z: 0.5,
+                    yaw: 0,
+                    pitch: 0,
+                    onGround: true
                 })
             }
         })
+
 
         if (user.isRegistered) {
             if (Date.now() < user.ban) {
@@ -125,7 +126,7 @@ const Redis = require('redis');
             } else {
                 client.write('chat', {
                     message: JSON.stringify({
-                        text: '[登录] 按"T"键打开聊天栏后，输入您的密码，按回车键提交。',
+                        text: '[登录] 按 "T" 键打开聊天栏后，输入您的密码，按回车键提交。',
                         bold: true,
                         color: 'green',
                     }),
@@ -145,13 +146,14 @@ const Redis = require('redis');
                             user.isLogin = true;
                             client.write('chat', {
                                 message: JSON.stringify({
-                                    text: '输入 /server 你想要去的服务器名称 即可传送。',
+                                    text: '欢迎回来，' + user.name + '！正在前往大厅...',
                                     bold: true,
-                                    color: 'gold',
+                                    color: 'red',
                                 }),
                                 position: 1,
                                 sender: '0'
                             })
+                            bungee(client).connect('Main')
                         } else {
                             user.logincount++;
                             client.write('chat', {
@@ -168,20 +170,21 @@ const Redis = require('redis');
                         DB.set(user.uuid, JSON.stringify({
                             password: user.password,
                             lastLoginTime: Date.now(),
-                            ban: Date.now()+60000
+                            ban: Date.now() + 60000
                         }))
                         client.end('密码错误次数过多，请稍后再试。');
                     }
                 } else {
                     client.write('chat', {
                         message: JSON.stringify({
-                            text: '输入 /server 你想要去的服务器名称 即可传送。',
+                            text: '您已登录！正在前往大厅...',
                             bold: true,
-                            color: 'gold',
+                            color: 'red',
                         }),
                         position: 1,
                         sender: '0'
                     })
+                    bungee(client).connect('Main')
                 }
             })
         } else {
@@ -217,4 +220,3 @@ const Redis = require('redis');
         }
     })
 })();
-

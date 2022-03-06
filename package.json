@@ -15,7 +15,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "minecraft-protocol": "^1.30.0",
+    "minecraft-protocol": "^1.31.0",
     "prismarine-chunk": "^1.30.0",
     "redis": "^4.0.4"
   }
